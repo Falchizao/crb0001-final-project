@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    image: fabiosammy/rails:7.0.8
+    command: /bin/sleep infinity
+    ports:
+      - "2235:22"
+      - "1025:1025"
+      - "1080:1080"
+      - "3000:3000"
+      - "8080:8080"
+      - "9292:9292"
+    volumes:
+      - .:/var/www/app
