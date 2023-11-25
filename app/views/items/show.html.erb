@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @item %>
+
+<div>
+  <%= link_to "Edit this item", edit_order_item_path(@item.order, @item) %> |
+  <%= link_to "Back to items", order_items_path %>
+</div>
