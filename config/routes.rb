@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   end
 
   # root "orders#index" descomentar em prod
-  root "home#index"
+  root "orders#index"
 end

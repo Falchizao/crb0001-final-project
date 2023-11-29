@@ -20,12 +20,19 @@ class ItemsController < ApplicationController
   def edit
   end
 
+  def update_order_total
+    order_to_update = Order.find(params[:order_id])
+    total = order_to_update.items.sum { |item| item.amount * item.value }
+  
+    order_to_update.update(total: total)
+  end
+
   # POST /items or /items.json
   def create
     @item = @order.items.new(item_params)
-
     respond_to do |format|
       if @item.save
+        update_order_total
         format.html { redirect_to order_item_url(@order ,@item), notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
       else
@@ -39,6 +46,7 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
+        update_order_total
         format.html { redirect_to order_item_url(@item.order , @item), notice: "Item was successfully updated." }
         format.json { render :show, status: :ok, location: @item }
       else
@@ -53,6 +61,7 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
+      update_order_total
       format.html { redirect_to items_url, notice: "Item was successfully destroyed." }
       format.json { head :no_content }
     end

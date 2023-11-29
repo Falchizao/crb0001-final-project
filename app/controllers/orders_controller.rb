@@ -25,6 +25,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        update_order_total
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
@@ -34,10 +35,16 @@ class OrdersController < ApplicationController
     end
   end
 
+  def update_order_total
+    @order.total = @order.items.sum { |item| item.amount * item.value }
+  
+    @order.update(order_params)
+  end
+
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
     respond_to do |format|
-      if @order.update(order_params)
+      if update_order_total
         format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -65,6 +72,6 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:name, :total, :purchased)
+      params.require(:order).permit(:name, :total, :purchased, items_attributes: [:amount, :value, :id] )
     end
 end
