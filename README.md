@@ -1,24 +1,11 @@
-# README
+Start docker compose up
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+docker compose exec app bash
 
-Things you may want to cover:
+bundle install
 
-* Ruby version
+rake db:migrate
 
-* System dependencies
+Start rails s -b 0.0.0.0
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+go to 3000 port
